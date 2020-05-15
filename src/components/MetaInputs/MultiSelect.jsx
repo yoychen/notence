@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import SelectWithOptionManager from "./utils/SelectWithOptionManager";
 
-function Select({ value, onChange, additional, onAdditionalChange }) {
+function MultiSelect({ value, onChange, additional, onAdditionalChange }) {
   return (
     <SelectWithOptionManager
+      mode="multiple"
       value={value}
       additional={additional}
       onChange={onChange}
@@ -13,13 +14,13 @@ function Select({ value, onChange, additional, onAdditionalChange }) {
   );
 }
 
-Select.defaultValue = "";
-Select.defaultAdditional = {
+MultiSelect.defaultValue = [];
+MultiSelect.defaultAdditional = {
   options: [],
 };
 
-Select.propTypes = {
-  value: PropTypes.string.isRequired,
+MultiSelect.propTypes = {
+  value: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   additional: PropTypes.shape({
     options: PropTypes.array,
@@ -27,4 +28,4 @@ Select.propTypes = {
   onAdditionalChange: PropTypes.func.isRequired,
 };
 
-export default Select;
+export default MultiSelect;

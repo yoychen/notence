@@ -38,7 +38,7 @@ function OptionManagerModal({ visible, onCancel, options, onChange }) {
     const optionName = optionInput.current.state.value;
     const hasDuplicated = !!options.find((option) => option.name === optionName);
 
-    if (hasDuplicated) {
+    if (optionName === "" || hasDuplicated) {
       return;
     }
 
