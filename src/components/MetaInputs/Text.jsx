@@ -8,7 +8,8 @@ const TextInput = styled(Input)`
   border-bottom: 1px dashed black;
   border-radius: 0;
 
-  &:focus {
+  &:focus,
+  &:hover {
     border-color: black;
   }
 `;

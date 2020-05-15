@@ -11,6 +11,7 @@
     "@toast-ui/react-editor": "^2.1.1",
     "antd": "^4.2.0",
     "prop-types": "^15.7.2",
+    "randomcolor": "^0.5.4",
     "react": "^16.13.1",
     "react-contenteditable": "^3.3.4",
     "react-dom": "^16.13.1",

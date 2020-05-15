@@ -35,23 +35,27 @@ function PropertiesDropdown({ showProperties, properties, onPropertyCreate, onPr
     </Modal>
   );
 
+  const propertyList = properties.map((property) => (
+    <PropertyItem key={property.id}>
+      <span className="name">{property.name}</span>
+      <Switch
+        size="small"
+        onChange={() => onPropertyToggle(property.id)}
+        checked={inShowProperties(property.id)}
+      />
+    </PropertyItem>
+  ));
+
   const menu = (
     <Menu>
-      {properties.map((property) => (
-        <PropertyItem key={property.id}>
-          <span className="name">{property.name}</span>
-          <Switch
-            size="small"
-            onChange={() => onPropertyToggle(property.id)}
-            checked={inShowProperties(property.id)}
-          />
-        </PropertyItem>
-      ))}
+      {propertyList}
+
       <Menu.Divider />
       <Menu.Item>
         <Button onClick={openModal} size="small" type="default" icon={<PlusOutlined />}>
           Add a property
         </Button>
+
         {createPropertyModal}
       </Menu.Item>
     </Menu>
@@ -61,7 +65,6 @@ function PropertiesDropdown({ showProperties, properties, onPropertyCreate, onPr
     <Dropdown
       visible={dropdownVisible}
       onVisibleChange={setDropdownVisible}
-      key="properties"
       overlay={menu}
       trigger={["click"]}
     >

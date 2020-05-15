@@ -6,6 +6,7 @@ import PageHeader from "./PageHeader";
 import MardownEditor from "../MardownEditor";
 import metaInputs from "../MetaInputs";
 import { updateContent, updateTitle, updateMeta } from "../../slices/pages";
+import { updateAdditional } from "../../slices/properties";
 
 const PageWrapper = styled.div`
   padding: 20px;
@@ -15,12 +16,21 @@ const PageContent = styled.div`
   margin-top: 35px;
 `;
 
-function Page({ title, meta, content, onContentChange, onTitleChange, onMetaChange }) {
+function Page({
+  title,
+  meta,
+  content,
+  onContentChange,
+  onTitleChange,
+  onMetaChange,
+  onAdditionalChange,
+}) {
   return (
     <PageWrapper>
       <PageHeader
         onMetaChange={onMetaChange}
         onTitleChange={onTitleChange}
+        onAdditionalChange={onAdditionalChange}
         title={title}
         meta={meta}
       />
@@ -39,19 +49,22 @@ Page.propTypes = {
   onContentChange: PropTypes.func.isRequired,
   onTitleChange: PropTypes.func.isRequired,
   onMetaChange: PropTypes.func.isRequired,
+  onAdditionalChange: PropTypes.func.isRequired,
 };
 
 const getMeta = (state, pageId, properties) => {
   const { meta } = state.pages[pageId];
 
   return properties.map((property) => {
-    const MetaInput = metaInputs[property.type];
+    const Input = metaInputs[property.type];
+    const value = meta[property.id] !== undefined ? meta[property.id] : Input.defaultValue;
 
     return {
-      propertyId: property.id,
-      name: property.name,
-      MetaInput,
-      value: meta[property.id] !== undefined ? meta[property.id] : MetaInput.defaultValue,
+      property: {
+        ...property,
+        Input,
+      },
+      value,
     };
   });
 };
@@ -67,6 +80,8 @@ const mapDispatchToProps = (dispatch, { pageId }) => {
     onContentChange: (content) => dispatch(updateContent({ pageId, content })),
     onTitleChange: (title) => dispatch(updateTitle({ pageId, title })),
     onMetaChange: (propertyId, value) => dispatch(updateMeta({ pageId, propertyId, value })),
+    onAdditionalChange: (propertyId, additionalChange) =>
+      dispatch(updateAdditional({ propertyId, additionalChange })),
   };
 };
 

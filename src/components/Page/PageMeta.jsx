@@ -18,15 +18,21 @@ const Meta = styled.div`
   }
 `;
 
-export default function PageMeta({ meta, onMetaChange }) {
-  const list = meta.map(({ MetaInput, propertyId, name, value }) => {
-    const handleChange = (newValue) => onMetaChange(propertyId, newValue);
+export default function PageMeta({ meta, onMetaChange, onAdditionalChange }) {
+  const list = meta.map(({ property: { id, name, additional, Input }, value }) => {
+    const handleChange = (newValue) => onMetaChange(id, newValue);
+    const handleAdditionChange = (additionalChange) => onAdditionalChange(id, additionalChange);
 
     return (
-      <Meta key={propertyId}>
+      <Meta key={id}>
         <div className="meta-name">{name}</div>
         <div className="meta-input">
-          <MetaInput onChange={handleChange} value={value} />
+          <Input
+            onChange={handleChange}
+            value={value}
+            additional={additional}
+            onAdditionalChange={handleAdditionChange}
+          />
         </div>
       </Meta>
     );
@@ -38,4 +44,5 @@ export default function PageMeta({ meta, onMetaChange }) {
 PageMeta.propTypes = {
   meta: PropTypes.arrayOf(PropTypes.object).isRequired,
   onMetaChange: PropTypes.func.isRequired,
+  onAdditionalChange: PropTypes.func.isRequired,
 };
