@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Tag } from "antd";
 import SelectWithOptionManager from "./utils/SelectWithOptionManager";
 
 function MultiSelect({ value, onChange, additional, onAdditionalChange }) {
@@ -27,5 +28,27 @@ MultiSelect.propTypes = {
   }).isRequired,
   onAdditionalChange: PropTypes.func.isRequired,
 };
+
+const Display = ({
+  property: {
+    additional: { options },
+  },
+  value,
+}) => {
+  const selectedOptions = options.filter((option) => value.indexOf(option.id) > -1);
+
+  return selectedOptions.map((option) => (
+    <Tag key={option.id} color={option.color}>
+      {option.name}
+    </Tag>
+  ));
+};
+Display.propTypes = {
+  value: PropTypes.arrayOf(PropTypes.string).isRequired,
+  property: PropTypes.shape({
+    additional: PropTypes.object,
+  }).isRequired,
+};
+MultiSelect.Display = Display;
 
 export default MultiSelect;

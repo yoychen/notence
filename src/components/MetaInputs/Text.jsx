@@ -31,4 +31,10 @@ Text.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
+const Display = ({ value }) => value;
+Display.propTypes = {
+  value: PropTypes.string.isRequired,
+};
+Text.Display = Display;
+
 export default Text;

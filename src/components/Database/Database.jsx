@@ -94,6 +94,7 @@ function Database({
           filters={currentView.filters}
           showProperties={currentView.showProperties}
           sorts={currentView.sorts}
+          properties={properties}
         />
 
         <Modal width="85vw" visible={!!selectedPageId} onCancel={resetSelectedPageId} footer={null}>

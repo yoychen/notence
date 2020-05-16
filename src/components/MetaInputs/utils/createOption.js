@@ -1,12 +1,25 @@
 import shortid from "shortid";
-import randomColor from "randomcolor";
+
+const colorMap = [
+  "magenta",
+  "red",
+  "volcano",
+  "orange",
+  "gold",
+  "lime",
+  "green",
+  "cyan",
+  "blue",
+  "geekblue",
+  "purple",
+];
+
+const getRandomColor = () => colorMap[Math.floor(Math.random() * colorMap.length)];
 
 export default (name) => {
   return {
     id: shortid.generate(),
     name,
-    color: randomColor({
-      luminosity: "light",
-    }),
+    color: getRandomColor(),
   };
 };
