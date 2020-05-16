@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tag } from "antd";
-import SelectWithOptionManager from "./utils/SelectWithOptionManager";
+import SelectWithOptionManager from "../utils/SelectWithOptionManager";
+import Display from "./Display";
+import filterMethods from "./filterMethods";
 
 function Select({ value, onChange, additional, onAdditionalChange }) {
   return (
@@ -14,11 +15,6 @@ function Select({ value, onChange, additional, onAdditionalChange }) {
   );
 }
 
-Select.defaultValue = "";
-Select.defaultAdditional = {
-  options: [],
-};
-
 Select.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -28,24 +24,11 @@ Select.propTypes = {
   onAdditionalChange: PropTypes.func.isRequired,
 };
 
-const Display = ({
-  property: {
-    additional: { options },
-  },
-  value,
-}) => {
-  const { color, name } = options.find((option) => value === option.id);
-
-  return <Tag color={color}>{name}</Tag>;
-};
-Display.propTypes = {
-  value: PropTypes.string.isRequired,
-  property: PropTypes.shape({
-    additional: PropTypes.object,
-  }).isRequired,
+Select.defaultValue = "";
+Select.defaultAdditional = {
+  options: [],
 };
 Select.Display = Display;
-
-Select.filterMethods = {};
+Select.filterMethods = filterMethods;
 
 export default Select;

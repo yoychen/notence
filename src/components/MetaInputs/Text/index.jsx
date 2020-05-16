@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Input } from "antd";
+import Display from "./Display";
+import filterMethods from "./filterMethods";
 
 const TextInput = styled(Input)`
   border: none;
@@ -24,19 +26,13 @@ function Text({ value, onChange }) {
   );
 }
 
-Text.defaultValue = "";
-
 Text.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-const Display = ({ value }) => value;
-Display.propTypes = {
-  value: PropTypes.string.isRequired,
-};
+Text.defaultValue = "";
 Text.Display = Display;
-
-Text.filterMethods = {};
+Text.filterMethods = filterMethods;
 
 export default Text;
