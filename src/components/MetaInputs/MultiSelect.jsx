@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Tag } from "antd";
+import { Tag, Select } from "antd";
 import SelectWithOptionManager from "./utils/SelectWithOptionManager";
 
 function MultiSelect({ value, onChange, additional, onAdditionalChange }) {
@@ -50,5 +50,39 @@ Display.propTypes = {
   }).isRequired,
 };
 MultiSelect.Display = Display;
+
+const contains = (value, args) => value.indexOf(args[0]) > -1;
+contains.ArgsInput = ({
+  property: {
+    additional: { options },
+  },
+  args,
+  onChange,
+}) => {
+  const { Option } = Select;
+
+  const handleChange = (value) => onChange([value]);
+
+  return (
+    <Select size="small" style={{ minWidth: "100px" }} value={args[0]} onChange={handleChange}>
+      {options.map(({ id, name }) => (
+        <Option key={id} value={id}>
+          {name}
+        </Option>
+      ))}
+    </Select>
+  );
+};
+contains.ArgsInput.propTypes = {
+  args: PropTypes.arrayOf(PropTypes.string).isRequired,
+  property: PropTypes.shape({
+    additional: PropTypes.object,
+  }).isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+MultiSelect.filterMethods = {
+  contains,
+};
 
 export default MultiSelect;

@@ -6,9 +6,10 @@ import { Modal, Button, Menu, Dropdown } from "antd";
 import Views from "./Views";
 import ViewSelect from "./ViewSelect";
 import PropertiesDropdown from "./PropertiesDropdown";
+import FiltersDropdown from "./FiltersDropdown";
 import Page from "../Page/Page";
 import { createPageInDatabase, createPropertyInDatabase } from "../../slices/databases";
-import { toggleShowProperty } from "../../slices/views";
+import { toggleShowProperty, createFilter, updateFilter } from "../../slices/views";
 
 const DatabaseWrapper = styled.div`
   padding: 35px 96px;
@@ -48,6 +49,8 @@ function Database({
   onPageCreate,
   onPropertyCreate,
   onPropertyToggle,
+  onFilterCreate,
+  onFilterChange,
 }) {
   const [currentViewId, setCurrentViewId] = useState(views[0].id);
   const [selectedPageId, setSelectedPageId] = useState(null);
@@ -59,6 +62,9 @@ function Database({
   };
 
   const handlePropertyToggle = (propertyId) => onPropertyToggle(currentViewId, propertyId);
+  const handleFilterChange = (filterId, newFilter) =>
+    onFilterChange(currentViewId, filterId, newFilter);
+  const handleFilterCreate = () => onFilterCreate(currentViewId);
 
   return (
     <DatabaseWrapper>
@@ -73,11 +79,12 @@ function Database({
             showProperties={currentView.showProperties}
             onPropertyToggle={handlePropertyToggle}
           />
-          <Dropdown key="filter" overlay={menu} trigger={["click"]}>
-            <Button size="small" type="link">
-              Filter
-            </Button>
-          </Dropdown>
+          <FiltersDropdown
+            properties={properties}
+            filters={currentView.filters}
+            onFilterCreate={handleFilterCreate}
+            onFilterChange={handleFilterChange}
+          />
           <Dropdown key="sort" overlay={menu} trigger={["click"]}>
             <Button size="small" type="link">
               Sort
@@ -113,6 +120,8 @@ Database.propTypes = {
   onPageCreate: PropTypes.func.isRequired,
   onPropertyCreate: PropTypes.func.isRequired,
   onPropertyToggle: PropTypes.func.isRequired,
+  onFilterCreate: PropTypes.func.isRequired,
+  onFilterChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { databaseId }) => ({
@@ -128,6 +137,9 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
     onPageCreate: (page) => dispatch(createPageInDatabase(databaseId, page)),
     onPropertyCreate: (property) => dispatch(createPropertyInDatabase(databaseId, property)),
     onPropertyToggle: (viewId, propertyId) => dispatch(toggleShowProperty({ viewId, propertyId })),
+    onFilterCreate: (viewId) => dispatch(createFilter(viewId)),
+    onFilterChange: (viewId, filterId, newFilter) =>
+      dispatch(updateFilter({ viewId, filterId, newFilter })),
   };
 };
 

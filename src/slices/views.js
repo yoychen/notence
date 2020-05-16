@@ -41,10 +41,19 @@ const slice = createSlice({
         showProperties.push(propertyId);
       }
     },
+    addFilter(state, { payload: { viewId, filter } }) {
+      state[viewId].filters.push(filter);
+    },
+    updateFilter(state, { payload: { viewId, filterId, newFilter } }) {
+      const { filters } = state[viewId];
+      const index = filters.findIndex((filter) => filter.id === filterId);
+
+      filters[index] = { ...filters[index], ...newFilter };
+    },
   },
 });
 
-export const { create, toggleShowProperty } = slice.actions;
+export const { create, toggleShowProperty, addFilter, updateFilter } = slice.actions;
 
 export default slice.reducer;
 
@@ -55,4 +64,15 @@ export const createView = ({ name, id }) => (dispatch) => {
   };
 
   dispatch(create(view));
+};
+
+export const createFilter = (viewId) => (dispatch) => {
+  const filter = {
+    id: shortid.generate(),
+    propertyId: null,
+    method: null,
+    args: [],
+  };
+
+  dispatch(addFilter({ viewId, filter }));
 };

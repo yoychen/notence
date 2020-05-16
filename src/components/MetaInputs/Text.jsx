@@ -37,4 +37,6 @@ Display.propTypes = {
 };
 Text.Display = Display;
 
+Text.filterMethods = {};
+
 export default Text;

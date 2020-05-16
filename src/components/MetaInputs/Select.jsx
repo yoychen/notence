@@ -46,4 +46,6 @@ Display.propTypes = {
 };
 Select.Display = Display;
 
+Select.filterMethods = {};
+
 export default Select;
