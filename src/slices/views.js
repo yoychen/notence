@@ -50,10 +50,15 @@ const slice = createSlice({
 
       filters[index] = { ...filters[index], ...newFilter };
     },
+    deleteFilter(state, { payload: { viewId, filterId } }) {
+      const { filters } = state[viewId];
+      const index = filters.findIndex((filter) => filter.id === filterId);
+      filters.splice(index, 1);
+    },
   },
 });
 
-export const { create, toggleShowProperty, addFilter, updateFilter } = slice.actions;
+export const { create, toggleShowProperty, addFilter, updateFilter, deleteFilter } = slice.actions;
 
 export default slice.reducer;
 

@@ -21,7 +21,7 @@ const OptionItem = styled.div`
   }
 `;
 
-const CloseBtn = styled(DeleteOutlined)`
+const DeleteBtn = styled(DeleteOutlined)`
   cursor: pointer;
 `;
 
@@ -74,7 +74,7 @@ function OptionManagerModal({ visible, onCancel, options, onChange }) {
     >
       {options.map(({ name, id }) => (
         <OptionItem key={id}>
-          <Tag>{name}</Tag> <CloseBtn onClick={() => removeOption(id)} />
+          <Tag>{name}</Tag> <DeleteBtn onClick={() => removeOption(id)} />
         </OptionItem>
       ))}
     </Modal>

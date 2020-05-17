@@ -9,7 +9,7 @@ import PropertiesDropdown from "./PropertiesDropdown";
 import FiltersDropdown from "./FiltersDropdown";
 import Page from "../Page/Page";
 import { createPageInDatabase, createPropertyInDatabase } from "../../slices/databases";
-import { toggleShowProperty, createFilter, updateFilter } from "../../slices/views";
+import { toggleShowProperty, createFilter, updateFilter, deleteFilter } from "../../slices/views";
 
 const DatabaseWrapper = styled.div`
   padding: 35px 96px;
@@ -51,6 +51,7 @@ function Database({
   onPropertyToggle,
   onFilterCreate,
   onFilterChange,
+  onFilterDelete,
 }) {
   const [currentViewId, setCurrentViewId] = useState(views[0].id);
   const [selectedPageId, setSelectedPageId] = useState(null);
@@ -65,6 +66,7 @@ function Database({
   const handleFilterChange = (filterId, newFilter) =>
     onFilterChange(currentViewId, filterId, newFilter);
   const handleFilterCreate = () => onFilterCreate(currentViewId);
+  const handleFilterDelete = (filterId) => onFilterDelete(currentViewId, filterId);
 
   return (
     <DatabaseWrapper>
@@ -84,6 +86,7 @@ function Database({
             filters={currentView.filters}
             onFilterCreate={handleFilterCreate}
             onFilterChange={handleFilterChange}
+            onFilterDelete={handleFilterDelete}
           />
           <Dropdown key="sort" overlay={menu} trigger={["click"]}>
             <Button size="small" type="link">
@@ -122,6 +125,7 @@ Database.propTypes = {
   onPropertyToggle: PropTypes.func.isRequired,
   onFilterCreate: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
+  onFilterDelete: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { databaseId }) => ({
@@ -140,6 +144,7 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
     onFilterCreate: (viewId) => dispatch(createFilter(viewId)),
     onFilterChange: (viewId, filterId, newFilter) =>
       dispatch(updateFilter({ viewId, filterId, newFilter })),
+    onFilterDelete: (viewId, filterId) => dispatch(deleteFilter({ viewId, filterId })),
   };
 };
 

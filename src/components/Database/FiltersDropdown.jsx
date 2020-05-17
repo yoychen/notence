@@ -4,7 +4,7 @@ import { Button, Menu, Dropdown } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import FilterInput from "./FilterInput";
 
-function FiltersDropdown({ properties, filters, onFilterCreate, onFilterChange }) {
+function FiltersDropdown({ properties, filters, onFilterCreate, onFilterChange, onFilterDelete }) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const filterList = filters.map((filter) => (
@@ -12,6 +12,7 @@ function FiltersDropdown({ properties, filters, onFilterCreate, onFilterChange }
       key={filter.id}
       filter={filter}
       onChange={(newFilter) => onFilterChange(filter.id, newFilter)}
+      onDelete={() => onFilterDelete(filter.id)}
       properties={properties}
     />
   ));
@@ -48,6 +49,7 @@ FiltersDropdown.propTypes = {
   filters: PropTypes.arrayOf(PropTypes.object).isRequired,
   onFilterCreate: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
+  onFilterDelete: PropTypes.func.isRequired,
 };
 
 export default FiltersDropdown;
