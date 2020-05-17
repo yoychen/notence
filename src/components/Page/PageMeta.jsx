@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { getInput } from "../MetaInputs";
 
 const Meta = styled.div`
   display: flex;
@@ -19,15 +20,17 @@ const Meta = styled.div`
 `;
 
 export default function PageMeta({ meta, onMetaChange, onAdditionalChange }) {
-  const list = meta.map(({ property: { id, name, additional, Input }, value }) => {
+  const list = meta.map(({ property: { id, name, additional, type }, value }) => {
     const handleChange = (newValue) => onMetaChange(id, newValue);
     const handleAdditionChange = (additionalChange) => onAdditionalChange(id, additionalChange);
+
+    const MetaInput = getInput(type);
 
     return (
       <Meta key={id}>
         <div className="meta-name">{name}</div>
         <div className="meta-input">
-          <Input
+          <MetaInput
             onChange={handleChange}
             value={value}
             additional={additional}

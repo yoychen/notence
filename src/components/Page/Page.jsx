@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import PageHeader from "./PageHeader";
 import MardownEditor from "../MardownEditor";
-import metaInputs from "../MetaInputs";
 import { updateContent, updateTitle, updateMeta, getMetaValue } from "../../slices/pages";
 import { updateAdditional } from "../../slices/properties";
 
@@ -55,18 +54,10 @@ Page.propTypes = {
 const getMeta = (state, pageId, properties) => {
   const { meta } = state.pages[pageId];
 
-  return properties.map((property) => {
-    const Input = metaInputs[property.type];
-    const value = getMetaValue(meta, property);
-
-    return {
-      property: {
-        ...property,
-        Input,
-      },
-      value,
-    };
-  });
+  return properties.map((property) => ({
+    property,
+    value: getMetaValue(meta, property),
+  }));
 };
 
 const mapStateToProps = (state, { pageId, properties }) => ({

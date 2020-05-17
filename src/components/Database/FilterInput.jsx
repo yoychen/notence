@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Select as AntSelect } from "antd";
-import metaInputs from "../MetaInputs";
+import { getFilterMethods } from "../MetaInputs";
 
 const { Option } = AntSelect;
 
@@ -29,7 +29,7 @@ const ArgsInputWrapper = styled.div`
 
 function FilterInput({ properties, filter, filter: { propertyId, method, args }, onChange }) {
   const selectedProperty = properties.find((property) => property.id === propertyId);
-  const filterMethods = selectedProperty ? metaInputs[selectedProperty.type].filterMethods : {};
+  const filterMethods = selectedProperty ? getFilterMethods(selectedProperty.type) : {};
   const ArgsInput = method && filterMethods[method].ArgsInput;
 
   const handlePropertyChange = (selectedPropertyId) => {

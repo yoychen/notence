@@ -2,7 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
-import metaInputs from "../components/MetaInputs";
+import { getDefaultAdditional } from "../components/MetaInputs";
 
 const initialState = {};
 
@@ -32,7 +32,7 @@ export const { create, updateAdditional } = slice.actions;
 export default slice.reducer;
 
 export const createProperty = ({ name, type, id }) => (dispatch) => {
-  const additional = metaInputs[type].defaultAdditional;
+  const additional = getDefaultAdditional(type);
 
   const property = {
     name,

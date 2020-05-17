@@ -2,7 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
-import metaInputs from "../components/MetaInputs";
+import { getDefaultValue } from "../components/MetaInputs";
 
 const initialState = {};
 
@@ -44,4 +44,4 @@ export const createPage = ({ title, id }) => (dispatch) => {
 };
 
 export const getMetaValue = (meta, property) =>
-  meta[property.id] !== undefined ? meta[property.id] : metaInputs[property.type].defaultValue;
+  meta[property.id] !== undefined ? meta[property.id] : getDefaultValue(property.type);

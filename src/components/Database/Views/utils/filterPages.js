@@ -1,4 +1,4 @@
-import metaInputs from "../../../MetaInputs";
+import { getFilterMethods } from "../../../MetaInputs";
 import { getMetaValue } from "../../../../slices/pages";
 
 const applyFilterRules = (page, filters, properties) => {
@@ -8,7 +8,7 @@ const applyFilterRules = (page, filters, properties) => {
     }
 
     const filterProperty = properties.find((property) => property.id === propertyId);
-    const filterMethod = metaInputs[filterProperty.type].filterMethods[method];
+    const filterMethod = getFilterMethods(filterProperty.type)[method];
     const propertyValue = getMetaValue(page.meta, filterProperty);
 
     return included && filterMethod(propertyValue, args);

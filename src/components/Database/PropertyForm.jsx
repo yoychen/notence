@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { Form, Input, Button, Select } from "antd";
-import metaInputs from "../MetaInputs";
+import { getInputNames } from "../MetaInputs";
 
 const { Option } = Select;
 
@@ -29,7 +29,7 @@ function PropertyForm({ onFinish }) {
         rules={[{ required: true, message: "Please input the type of property!" }]}
       >
         <Select style={{ width: "100%" }}>
-          {Object.keys(metaInputs).map((inputName) => (
+          {getInputNames().map((inputName) => (
             <Option key={inputName} value={inputName}>
               {inputName}
             </Option>

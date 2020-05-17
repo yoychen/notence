@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { List, Button } from "antd";
-import metaInputs from "../../MetaInputs";
+import { getDisplay } from "../../MetaInputs";
 import filterPages from "./utils/filterPages";
 
 const Property = styled.div`
@@ -27,7 +27,7 @@ export default function ListView({
       .filter((property) => showProperties.indexOf(property.id) > -1)
       .filter((property) => pageMeta[property.id])
       .map((property) => ({
-        Display: metaInputs[property.type].Display,
+        Display: getDisplay(property.type),
         property,
         value: pageMeta[property.id],
       }));
