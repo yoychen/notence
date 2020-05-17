@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PageHeader from "./PageHeader";
 import MardownEditor from "../MardownEditor";
 import metaInputs from "../MetaInputs";
-import { updateContent, updateTitle, updateMeta } from "../../slices/pages";
+import { updateContent, updateTitle, updateMeta, getMetaValue } from "../../slices/pages";
 import { updateAdditional } from "../../slices/properties";
 
 const PageWrapper = styled.div`
@@ -57,7 +57,7 @@ const getMeta = (state, pageId, properties) => {
 
   return properties.map((property) => {
     const Input = metaInputs[property.type];
-    const value = meta[property.id] !== undefined ? meta[property.id] : Input.defaultValue;
+    const value = getMetaValue(meta, property);
 
     return {
       property: {

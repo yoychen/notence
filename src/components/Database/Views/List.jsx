@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { List, Button } from "antd";
-import metaInputs from '../../MetaInputs';
+import metaInputs from "../../MetaInputs";
+import filterPages from "./utils/filterPages";
 
 const Property = styled.div`
   margin: 0 6px;
@@ -31,6 +32,12 @@ export default function ListView({
         value: pageMeta[property.id],
       }));
 
+  const pages = useMemo(() => filterPages(dataSource, filters, properties), [
+    dataSource,
+    filters,
+    properties,
+  ]);
+
   return (
     <List
       itemLayout="horizontal"
@@ -40,7 +47,7 @@ export default function ListView({
           Create Page
         </Button>
       }
-      dataSource={dataSource}
+      dataSource={pages}
       renderItem={(page) => (
         <List.Item onClick={() => onPageSelect(page.id)}>
           <List.Item.Meta title={page.title} />

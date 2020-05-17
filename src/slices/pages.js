@@ -2,6 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
+import metaInputs from "../components/MetaInputs";
 
 const initialState = {};
 
@@ -9,7 +10,7 @@ const slice = createSlice({
   name: "pages",
   initialState,
   reducers: {
-    create: (state, { payload: { id, title, meta = {}, content = '' } }) => {
+    create: (state, { payload: { id, title, meta = {}, content = "" } }) => {
       state[id] = {
         id,
         title,
@@ -41,3 +42,6 @@ export const createPage = ({ title, id }) => (dispatch) => {
 
   dispatch(create(page));
 };
+
+export const getMetaValue = (meta, property) =>
+  meta[property.id] !== undefined ? meta[property.id] : metaInputs[property.type].defaultValue;
