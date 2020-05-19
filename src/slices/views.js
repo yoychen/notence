@@ -11,6 +11,7 @@ const initialState = {
     filters: [],
     showProperties: [],
     sorts: [],
+    sequence: [],
   },
 };
 
@@ -20,7 +21,17 @@ const slice = createSlice({
   reducers: {
     create: (
       state,
-      { payload: { id, name, type = "ListView", filters = [], showProperties = [], sorts = [] } }
+      {
+        payload: {
+          id,
+          name,
+          type = "ListView",
+          filters = [],
+          showProperties = [],
+          sorts = [],
+          sequence = [],
+        },
+      }
     ) => {
       state[id] = {
         id,
@@ -29,6 +40,7 @@ const slice = createSlice({
         filters,
         showProperties,
         sorts,
+        sequence,
       };
     },
     toggleShowProperty(state, { payload: { viewId, propertyId } }) {
@@ -55,10 +67,20 @@ const slice = createSlice({
       const index = filters.findIndex((filter) => filter.id === filterId);
       filters.splice(index, 1);
     },
+    updateSequence(state, { payload: { viewId, newSequence } }) {
+      state[viewId].sequence = newSequence;
+    },
   },
 });
 
-export const { create, toggleShowProperty, addFilter, updateFilter, deleteFilter } = slice.actions;
+export const {
+  create,
+  toggleShowProperty,
+  addFilter,
+  updateFilter,
+  deleteFilter,
+  updateSequence,
+} = slice.actions;
 
 export default slice.reducer;
 

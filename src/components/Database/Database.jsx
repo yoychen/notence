@@ -9,7 +9,13 @@ import PropertiesDropdown from "./PropertiesDropdown";
 import FiltersDropdown from "./FiltersDropdown";
 import Page from "../Page/Page";
 import { createPageInDatabase, createPropertyInDatabase } from "../../slices/databases";
-import { toggleShowProperty, createFilter, updateFilter, deleteFilter } from "../../slices/views";
+import {
+  toggleShowProperty,
+  createFilter,
+  updateFilter,
+  deleteFilter,
+  updateSequence,
+} from "../../slices/views";
 
 const DatabaseWrapper = styled.div`
   padding: 35px 96px;
@@ -52,6 +58,7 @@ function Database({
   onFilterCreate,
   onFilterChange,
   onFilterDelete,
+  onSequenceChange,
 }) {
   const [currentViewId, setCurrentViewId] = useState(views[0].id);
   const [selectedPageId, setSelectedPageId] = useState(null);
@@ -67,6 +74,7 @@ function Database({
     onFilterChange(currentViewId, filterId, newFilter);
   const handleFilterCreate = () => onFilterCreate(currentViewId);
   const handleFilterDelete = (filterId) => onFilterDelete(currentViewId, filterId);
+  const handleSequenceChange = (newSequence) => onSequenceChange(currentViewId, newSequence);
 
   return (
     <DatabaseWrapper>
@@ -100,10 +108,12 @@ function Database({
         <DataView
           onPageSelect={setSelectedPageId}
           onPageCreate={onPageCreate}
+          onSequenceChange={handleSequenceChange}
           dataSource={pages}
           filters={currentView.filters}
           showProperties={currentView.showProperties}
           sorts={currentView.sorts}
+          sequence={currentView.sequence}
           properties={properties}
         />
 
@@ -126,6 +136,7 @@ Database.propTypes = {
   onFilterCreate: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onFilterDelete: PropTypes.func.isRequired,
+  onSequenceChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { databaseId }) => ({
@@ -145,6 +156,7 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
     onFilterChange: (viewId, filterId, newFilter) =>
       dispatch(updateFilter({ viewId, filterId, newFilter })),
     onFilterDelete: (viewId, filterId) => dispatch(deleteFilter({ viewId, filterId })),
+    onSequenceChange: (viewId, newSequence) => dispatch(updateSequence({ viewId, newSequence })),
   };
 };
 
