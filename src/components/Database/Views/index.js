@@ -1,5 +1,8 @@
 import ListView from "./List";
 
-export default {
+const views = {
   ListView,
 };
+
+export const getView = (type) => views[type];
+export const getViewNames = () => Object.keys(views);

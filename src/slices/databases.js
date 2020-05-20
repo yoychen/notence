@@ -2,7 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
-import { createView } from "./views";
+import { createView, remove as removeView } from "./views";
 import { createPage } from "./pages";
 import { createProperty } from "./properties";
 
@@ -41,10 +41,18 @@ const slice = createSlice({
     rename: (state, { payload: { databaseId, newName } }) => {
       state[databaseId].name = newName;
     },
+    addView: (state, { payload: { databaseId, viewId } }) => {
+      state[databaseId].views.push(viewId);
+    },
+    popView: (state, { payload: { databaseId, viewId } }) => {
+      const { views } = state[databaseId];
+      const index = views.indexOf(viewId);
+      views.splice(index, 1);
+    },
   },
 });
 
-export const { create, addPage, addProperty, remove, rename } = slice.actions;
+export const { create, addPage, addProperty, remove, rename, addView, popView } = slice.actions;
 
 export default slice.reducer;
 
@@ -71,6 +79,22 @@ export const createPageInDatabase = (databaseId, { title }) => (dispatch) => {
   dispatch(createPage(page));
 
   dispatch(addPage({ databaseId, pageId: page.id }));
+};
+
+export const createViewInDatabase = (databaseId, { name, type }) => (dispatch) => {
+  const view = {
+    name,
+    type,
+    id: shortid.generate(),
+  };
+  dispatch(createView(view));
+
+  dispatch(addView({ databaseId, viewId: view.id }));
+};
+
+export const deleteViewInDatabase = (databaseId, viewId) => (dispatch) => {
+  dispatch(removeView({ viewId }));
+  dispatch(popView({ databaseId, viewId }));
 };
 
 export const createPropertyInDatabase = (databaseId, { name, type }) => (dispatch) => {

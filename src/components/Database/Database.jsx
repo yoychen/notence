@@ -4,18 +4,25 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Modal, Button, Menu, Dropdown } from "antd";
 import ContentEditable from "react-contenteditable";
-import Views from "./Views";
+import { getView } from "./Views";
 import ViewSelect from "./ViewSelect";
 import PropertiesDropdown from "./PropertiesDropdown";
 import FiltersDropdown from "./FiltersDropdown";
 import Page from "../Page/Page";
-import { createPageInDatabase, createPropertyInDatabase, rename } from "../../slices/databases";
+import {
+  createPageInDatabase,
+  createPropertyInDatabase,
+  rename,
+  createViewInDatabase,
+  deleteViewInDatabase,
+} from "../../slices/databases";
 import {
   toggleShowProperty,
   createFilter,
   updateFilter,
   deleteFilter,
   updateSequence,
+  rename as renameView,
 } from "../../slices/views";
 
 const DatabaseWrapper = styled.div`
@@ -61,11 +68,14 @@ function Database({
   onFilterDelete,
   onSequenceChange,
   onRename,
+  onViewCreate,
+  onViewDelete,
+  onViewRename,
 }) {
   const [currentViewId, setCurrentViewId] = useState(views[0].id);
   const [selectedPageId, setSelectedPageId] = useState(null);
   const currentView = views.find((view) => view.id === currentViewId);
-  const DataView = Views[currentView.type];
+  const DataView = getView(currentView.type);
 
   const resetSelectedPageId = () => {
     setSelectedPageId(null);
@@ -87,7 +97,14 @@ function Database({
         <ContentEditable onChange={handleNameChange} html={name} />
       </Title>
       <Toolbar>
-        <ViewSelect views={views} currentViewId={currentViewId} onChange={setCurrentViewId} />
+        <ViewSelect
+          views={views}
+          currentViewId={currentViewId}
+          onChange={setCurrentViewId}
+          onCreate={onViewCreate}
+          onDelete={onViewDelete}
+          onRename={onViewRename}
+        />
 
         <div className="right">
           <PropertiesDropdown
@@ -145,6 +162,9 @@ Database.propTypes = {
   onFilterDelete: PropTypes.func.isRequired,
   onSequenceChange: PropTypes.func.isRequired,
   onRename: PropTypes.func.isRequired,
+  onViewCreate: PropTypes.func.isRequired,
+  onViewDelete: PropTypes.func.isRequired,
+  onViewRename: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { databaseId }) => ({
@@ -166,6 +186,9 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
     onFilterDelete: (viewId, filterId) => dispatch(deleteFilter({ viewId, filterId })),
     onSequenceChange: (viewId, newSequence) => dispatch(updateSequence({ viewId, newSequence })),
     onRename: (newName) => dispatch(rename({ databaseId, newName })),
+    onViewCreate: (view) => dispatch(createViewInDatabase(databaseId, view)),
+    onViewDelete: (viewId) => dispatch(deleteViewInDatabase(databaseId, viewId)),
+    onViewRename: (viewId, newName) => dispatch(renameView({ viewId, newName })),
   };
 };
 

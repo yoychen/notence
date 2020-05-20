@@ -70,6 +70,12 @@ const slice = createSlice({
     updateSequence(state, { payload: { viewId, newSequence } }) {
       state[viewId].sequence = newSequence;
     },
+    rename(state, { payload: { viewId, newName } }) {
+      state[viewId].name = newName;
+    },
+    remove(state, { payload: { viewId } }) {
+      delete state[viewId];
+    },
   },
 });
 
@@ -80,13 +86,16 @@ export const {
   updateFilter,
   deleteFilter,
   updateSequence,
+  rename,
+  remove,
 } = slice.actions;
 
 export default slice.reducer;
 
-export const createView = ({ name, id }) => (dispatch) => {
+export const createView = ({ name, id, type }) => (dispatch) => {
   const view = {
     name,
+    type,
     id: id || shortid.generate(),
   };
 
