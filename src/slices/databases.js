@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
 import { createView, remove as removeView } from "./views";
-import { createPage } from "./pages";
+import { createPage, remove as removePage } from "./pages";
 import { createProperty } from "./properties";
 
 const initialState = {
@@ -49,10 +49,24 @@ const slice = createSlice({
       const index = views.indexOf(viewId);
       views.splice(index, 1);
     },
+    popPage: (state, { payload: { databaseId, pageId } }) => {
+      const { pages } = state[databaseId];
+      const index = pages.indexOf(pageId);
+      pages.splice(index, 1);
+    },
   },
 });
 
-export const { create, addPage, addProperty, remove, rename, addView, popView } = slice.actions;
+export const {
+  create,
+  addPage,
+  addProperty,
+  remove,
+  rename,
+  addView,
+  popView,
+  popPage,
+} = slice.actions;
 
 export default slice.reducer;
 
@@ -79,6 +93,11 @@ export const createPageInDatabase = (databaseId, { title }) => (dispatch) => {
   dispatch(createPage(page));
 
   dispatch(addPage({ databaseId, pageId: page.id }));
+};
+
+export const deletePageInDatabase = (databaseId, pageId) => (dispatch) => {
+  dispatch(removePage({ pageId }));
+  dispatch(popPage({ databaseId, pageId }));
 };
 
 export const createViewInDatabase = (databaseId, { name, type }) => (dispatch) => {

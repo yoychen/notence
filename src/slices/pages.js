@@ -27,10 +27,13 @@ const slice = createSlice({
     updateTitle: (state, { payload: { pageId, title } }) => {
       state[pageId].title = title;
     },
+    remove(state, { payload: { pageId } }) {
+      delete state[pageId];
+    },
   },
 });
 
-export const { create, updateMeta, updateContent, updateTitle } = slice.actions;
+export const { create, updateMeta, updateContent, updateTitle, remove } = slice.actions;
 
 export default slice.reducer;
 

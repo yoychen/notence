@@ -11,6 +11,7 @@ import FiltersDropdown from "./FiltersDropdown";
 import Page from "../Page/Page";
 import {
   createPageInDatabase,
+  deletePageInDatabase,
   createPropertyInDatabase,
   rename,
   createViewInDatabase,
@@ -52,6 +53,7 @@ function Database({
   views,
   properties,
   onPageCreate,
+  onPageDelete,
   onPropertyCreate,
   onPropertyToggle,
   onFilterCreate,
@@ -118,6 +120,7 @@ function Database({
         <DataView
           onPageSelect={setSelectedPageId}
           onPageCreate={onPageCreate}
+          onPageDelete={onPageDelete}
           onSequenceChange={handleSequenceChange}
           dataSource={pages}
           filters={currentView.filters}
@@ -141,6 +144,7 @@ Database.propTypes = {
   views: PropTypes.arrayOf(PropTypes.object).isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPageCreate: PropTypes.func.isRequired,
+  onPageDelete: PropTypes.func.isRequired,
   onPropertyCreate: PropTypes.func.isRequired,
   onPropertyToggle: PropTypes.func.isRequired,
   onFilterCreate: PropTypes.func.isRequired,
@@ -164,6 +168,7 @@ const mapStateToProps = (state, { databaseId }) => ({
 const mapDispatchToProps = (dispatch, { databaseId }) => {
   return {
     onPageCreate: (page) => dispatch(createPageInDatabase(databaseId, page)),
+    onPageDelete: (pageId) => dispatch(deletePageInDatabase(databaseId, pageId)),
     onPropertyCreate: (property) => dispatch(createPropertyInDatabase(databaseId, property)),
     onPropertyToggle: (viewId, propertyId) => dispatch(toggleShowProperty({ viewId, propertyId })),
     onFilterCreate: (viewId) => dispatch(createFilter(viewId)),

@@ -15,6 +15,7 @@ const CreateBtn = styled(Button)`
 export default function ListView({
   dataSource,
   onPageCreate,
+  onPageDelete,
   onPageSelect,
   onSequenceChange,
   filters,
@@ -61,6 +62,7 @@ export default function ListView({
             onClick={() => onPageSelect(page.id)}
             title={page.title}
             properties={getProperties(page.meta)}
+            onDelete={() => onPageDelete(page.id)}
           />
         )}
       </SortableList>
@@ -86,6 +88,7 @@ ListView.propTypes = {
   sequence: PropTypes.arrayOf(PropTypes.string).isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPageCreate: PropTypes.func.isRequired,
+  onPageDelete: PropTypes.func.isRequired,
   onPageSelect: PropTypes.func.isRequired,
   onSequenceChange: PropTypes.func.isRequired,
 };
