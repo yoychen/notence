@@ -1,1 +1,6 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
+
+/* Prevent covering Ant Modal */
+.ant-dropdown {
+  z-index: 1000;
+}
