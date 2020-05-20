@@ -38,10 +38,13 @@ const slice = createSlice({
     remove: (state, { payload: { databaseId } }) => {
       delete state[databaseId];
     },
+    rename: (state, { payload: { databaseId, newName } }) => {
+      state[databaseId].name = newName;
+    },
   },
 });
 
-export const { create, addPage, addProperty, remove } = slice.actions;
+export const { create, addPage, addProperty, remove, rename } = slice.actions;
 
 export default slice.reducer;
 

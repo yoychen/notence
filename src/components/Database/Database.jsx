@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Modal, Button, Menu, Dropdown } from "antd";
+import ContentEditable from "react-contenteditable";
 import Views from "./Views";
 import ViewSelect from "./ViewSelect";
 import PropertiesDropdown from "./PropertiesDropdown";
 import FiltersDropdown from "./FiltersDropdown";
 import Page from "../Page/Page";
-import { createPageInDatabase, createPropertyInDatabase } from "../../slices/databases";
+import { createPageInDatabase, createPropertyInDatabase, rename } from "../../slices/databases";
 import {
   toggleShowProperty,
   createFilter,
@@ -59,6 +60,7 @@ function Database({
   onFilterChange,
   onFilterDelete,
   onSequenceChange,
+  onRename,
 }) {
   const [currentViewId, setCurrentViewId] = useState(views[0].id);
   const [selectedPageId, setSelectedPageId] = useState(null);
@@ -75,10 +77,15 @@ function Database({
   const handleFilterCreate = () => onFilterCreate(currentViewId);
   const handleFilterDelete = (filterId) => onFilterDelete(currentViewId, filterId);
   const handleSequenceChange = (newSequence) => onSequenceChange(currentViewId, newSequence);
+  const handleNameChange = (event) => {
+    onRename(event.target.value);
+  };
 
   return (
     <DatabaseWrapper>
-      <Title>{name}</Title>
+      <Title>
+        <ContentEditable onChange={handleNameChange} html={name} />
+      </Title>
       <Toolbar>
         <ViewSelect views={views} currentViewId={currentViewId} onChange={setCurrentViewId} />
 
@@ -137,6 +144,7 @@ Database.propTypes = {
   onFilterChange: PropTypes.func.isRequired,
   onFilterDelete: PropTypes.func.isRequired,
   onSequenceChange: PropTypes.func.isRequired,
+  onRename: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { databaseId }) => ({
@@ -157,6 +165,7 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
       dispatch(updateFilter({ viewId, filterId, newFilter })),
     onFilterDelete: (viewId, filterId) => dispatch(deleteFilter({ viewId, filterId })),
     onSequenceChange: (viewId, newSequence) => dispatch(updateSequence({ viewId, newSequence })),
+    onRename: (newName) => dispatch(rename({ databaseId, newName })),
   };
 };
 
