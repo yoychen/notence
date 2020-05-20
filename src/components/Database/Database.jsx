@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Modal, Button, Menu, Dropdown } from "antd";
+import { Modal } from "antd";
 import ContentEditable from "react-contenteditable";
 import { getView } from "./Views";
 import ViewSelect from "./ViewSelect";
@@ -45,15 +45,6 @@ const Toolbar = styled.div`
     margin-left: auto;
   }
 `;
-
-const menu = (
-  <Menu>
-    <Menu.Item key="0">1st menu item</Menu.Item>
-    <Menu.Item key="1">2nd menu item</Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="3">3rd menu item</Menu.Item>
-  </Menu>
-);
 
 function Database({
   name,
@@ -120,11 +111,6 @@ function Database({
             onFilterChange={handleFilterChange}
             onFilterDelete={handleFilterDelete}
           />
-          <Dropdown key="sort" overlay={menu} trigger={["click"]}>
-            <Button size="small" type="link">
-              Sort
-            </Button>
-          </Dropdown>
         </div>
       </Toolbar>
 
