@@ -35,10 +35,13 @@ const slice = createSlice({
     addProperty: (state, { payload: { databaseId, propertyId } }) => {
       state[databaseId].properties.push(propertyId);
     },
+    remove: (state, { payload: { databaseId } }) => {
+      delete state[databaseId];
+    },
   },
 });
 
-export const { create, addPage, addProperty } = slice.actions;
+export const { create, addPage, addProperty, remove } = slice.actions;
 
 export default slice.reducer;
 
