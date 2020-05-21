@@ -6,15 +6,7 @@ import { createView, remove as removeView } from "./views";
 import { createPage, remove as removePage } from "./pages";
 import { createProperty, remove as removeProperty } from "./properties";
 
-const initialState = {
-  tutu: {
-    id: "tutu",
-    name: "haha",
-    pages: [],
-    views: ["tttt"],
-    properties: [],
-  },
-};
+const initialState = {};
 
 const slice = createSlice({
   name: "databases",

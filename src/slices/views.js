@@ -3,17 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
 
-const initialState = {
-  tttt: {
-    id: "tttt",
-    name: "haha",
-    type: "ListView",
-    filters: [],
-    showProperties: [],
-    sorts: [],
-    sequence: [],
-  },
-};
+const initialState = {};
 
 const slice = createSlice({
   name: "views",
