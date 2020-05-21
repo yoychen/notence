@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
 import { createView, remove as removeView } from "./views";
 import { createPage, remove as removePage } from "./pages";
-import { createProperty } from "./properties";
+import { createProperty, remove as removeProperty } from "./properties";
 
 const initialState = {
   tutu: {
@@ -54,6 +54,11 @@ const slice = createSlice({
       const index = pages.indexOf(pageId);
       pages.splice(index, 1);
     },
+    popProperty: (state, { payload: { databaseId, propertyId } }) => {
+      const { properties } = state[databaseId];
+      const index = properties.indexOf(propertyId);
+      properties.splice(index, 1);
+    },
   },
 });
 
@@ -66,6 +71,7 @@ export const {
   addView,
   popView,
   popPage,
+  popProperty,
 } = slice.actions;
 
 export default slice.reducer;
@@ -125,4 +131,9 @@ export const createPropertyInDatabase = (databaseId, { name, type }) => (dispatc
   dispatch(createProperty(property));
 
   dispatch(addProperty({ databaseId, propertyId: property.id }));
+};
+
+export const deletePropertyInDatabase = (databaseId, propertyId) => (dispatch) => {
+  dispatch(removeProperty({ propertyId }));
+  dispatch(popProperty({ databaseId, propertyId }));
 };

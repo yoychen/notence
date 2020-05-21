@@ -13,6 +13,7 @@ import {
   createPageInDatabase,
   deletePageInDatabase,
   createPropertyInDatabase,
+  deletePropertyInDatabase,
   rename,
   createViewInDatabase,
   deleteViewInDatabase,
@@ -56,6 +57,7 @@ function Database({
   onPageDelete,
   onPropertyCreate,
   onPropertyToggle,
+  onPropertyDelete,
   onFilterCreate,
   onFilterChange,
   onFilterDelete,
@@ -105,6 +107,7 @@ function Database({
             properties={properties}
             showProperties={currentView.showProperties}
             onPropertyToggle={handlePropertyToggle}
+            onPropertyDelete={onPropertyDelete}
           />
           <FiltersDropdown
             properties={properties}
@@ -147,6 +150,7 @@ Database.propTypes = {
   onPageDelete: PropTypes.func.isRequired,
   onPropertyCreate: PropTypes.func.isRequired,
   onPropertyToggle: PropTypes.func.isRequired,
+  onPropertyDelete: PropTypes.func.isRequired,
   onFilterCreate: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onFilterDelete: PropTypes.func.isRequired,
@@ -171,6 +175,7 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
     onPageDelete: (pageId) => dispatch(deletePageInDatabase(databaseId, pageId)),
     onPropertyCreate: (property) => dispatch(createPropertyInDatabase(databaseId, property)),
     onPropertyToggle: (viewId, propertyId) => dispatch(toggleShowProperty({ viewId, propertyId })),
+    onPropertyDelete: (propertyId) => dispatch(deletePropertyInDatabase(databaseId, propertyId)),
     onFilterCreate: (viewId) => dispatch(createFilter(viewId)),
     onFilterChange: (viewId, filterId, newFilter) =>
       dispatch(updateFilter({ viewId, filterId, newFilter })),

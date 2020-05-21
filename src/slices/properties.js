@@ -24,10 +24,13 @@ const slice = createSlice({
         ...additionalChange,
       };
     },
+    remove: (state, { payload: { propertyId } }) => {
+      delete state[propertyId];
+    },
   },
 });
 
-export const { create, updateAdditional } = slice.actions;
+export const { create, updateAdditional, remove } = slice.actions;
 
 export default slice.reducer;
 

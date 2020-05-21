@@ -2,20 +2,32 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Modal, Switch, Button, Menu, Dropdown } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import PropertyForm from "./PropertyForm";
 
 const PropertyItem = styled(Menu.Item)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   .name {
-    margin-right: 6px;
+    margin-right: auto;
+    padding-right: 1em;
   }
 `;
 
-function PropertiesDropdown({ showProperties, properties, onPropertyCreate, onPropertyToggle }) {
+const DeleteBtn = styled(DeleteOutlined)`
+  margin-left: 1em;
+  cursor: pointer;
+  user-select: none;
+`;
+
+function PropertiesDropdown({
+  showProperties,
+  properties,
+  onPropertyCreate,
+  onPropertyDelete,
+  onPropertyToggle,
+}) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -43,6 +55,7 @@ function PropertiesDropdown({ showProperties, properties, onPropertyCreate, onPr
         onChange={() => onPropertyToggle(property.id)}
         checked={inShowProperties(property.id)}
       />
+      <DeleteBtn onClick={() => onPropertyDelete(property.id)} />
     </PropertyItem>
   ));
 
@@ -79,6 +92,7 @@ PropertiesDropdown.propTypes = {
   showProperties: PropTypes.arrayOf(PropTypes.string).isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPropertyCreate: PropTypes.func.isRequired,
+  onPropertyDelete: PropTypes.func.isRequired,
   onPropertyToggle: PropTypes.func.isRequired,
 };
 
