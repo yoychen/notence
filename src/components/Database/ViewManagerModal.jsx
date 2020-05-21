@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Select as AntSelect, Button, Modal as AntModal } from "antd";
-import ContentEditable from "react-contenteditable";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import InlineInput from "../InlineInput";
 import { getViewNames } from "./Views";
 
 const { Option } = AntSelect;
@@ -28,7 +28,7 @@ const ViewItem = styled.div`
   }
 `;
 
-const NameInput = styled(ContentEditable)`
+const NameInput = styled(InlineInput)`
   flex: 1;
 `;
 
@@ -57,8 +57,6 @@ function ViewManagerModal({ visible, onCancel, views, onCreate, onDelete, onRena
     setViewType(null);
   };
 
-  const handleNameChange = (event, id) => onRename(id, event.target.value);
-
   const showDeleteBtn = () => views.length > 1;
 
   return (
@@ -83,7 +81,7 @@ function ViewManagerModal({ visible, onCancel, views, onCreate, onDelete, onRena
     >
       {views.map(({ name, id }) => (
         <ViewItem key={id}>
-          <NameInput html={name} onChange={(event) => handleNameChange(event, id)} />
+          <NameInput value={name} onChange={(value) => onRename(id, value)} />
           {showDeleteBtn() && <DeleteBtn onClick={() => onDelete(id)} />}
         </ViewItem>
       ))}

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Modal } from "antd";
-import ContentEditable from "react-contenteditable";
+import InlineInput from "../InlineInput";
 import { getView } from "./Views";
 import ViewSelect from "./ViewSelect";
 import PropertiesDropdown from "./PropertiesDropdown";
@@ -82,14 +82,11 @@ function Database({
   const handleFilterCreate = () => onFilterCreate(currentViewId);
   const handleFilterDelete = (filterId) => onFilterDelete(currentViewId, filterId);
   const handleSequenceChange = (newSequence) => onSequenceChange(currentViewId, newSequence);
-  const handleNameChange = (event) => {
-    onRename(event.target.value);
-  };
 
   return (
     <DatabaseWrapper>
       <Title>
-        <ContentEditable onChange={handleNameChange} html={name} />
+        <InlineInput onChange={onRename} value={name} />
       </Title>
       <Toolbar>
         <ViewSelect

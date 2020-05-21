@@ -1,16 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ContentEditable from "react-contenteditable";
+import InlineInput from "../InlineInput";
 import PageMeta from "./PageMeta";
 
 function PageHeader({ title, meta, onTitleChange, onMetaChange, onAdditionalChange }) {
-  const handleTitleChange = (event) => {
-    onTitleChange(event.target.value);
-  };
-
   return (
     <header className="page-header">
-      <ContentEditable onChange={handleTitleChange} tagName="h1" html={title} />
+      <InlineInput onChange={onTitleChange} tagName="h1" value={title} />
 
       <PageMeta onMetaChange={onMetaChange} meta={meta} onAdditionalChange={onAdditionalChange} />
     </header>
