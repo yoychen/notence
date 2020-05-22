@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
 import { createView, remove as removeView } from "./views";
 import { createPage, remove as removePage } from "./pages";
-import { createProperty, remove as removeProperty } from "./properties";
+import { createProperty, removeProperty } from "./properties";
 
 const initialState = {};
 
@@ -126,6 +126,6 @@ export const createPropertyInDatabase = (databaseId, { name, type }) => (dispatc
 };
 
 export const deletePropertyInDatabase = (databaseId, propertyId) => (dispatch) => {
-  dispatch(removeProperty({ propertyId }));
+  dispatch(removeProperty(propertyId));
   dispatch(popProperty({ databaseId, propertyId }));
 };

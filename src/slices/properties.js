@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
 import { getDefaultAdditional } from "../components/MetaInputs";
+import { deleteFilter } from "./views";
 
 const initialState = {};
 
@@ -45,4 +46,18 @@ export const createProperty = ({ name, type, id }) => (dispatch) => {
   };
 
   dispatch(create(property));
+};
+
+export const removeProperty = (propertyId) => (dispatch, getState) => {
+  const { views } = getState();
+
+  Object.keys(views).forEach((viewId) => {
+    views[viewId].filters.forEach((filter) => {
+      if (filter.propertyId === propertyId) {
+        dispatch(deleteFilter({ viewId, filterId: filter.id }));
+      }
+    });
+  });
+
+  dispatch(remove({ propertyId }));
 };
