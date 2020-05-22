@@ -4,11 +4,14 @@ import SelectWithOptionManager from "../utils/SelectWithOptionManager";
 import Display from "./Display";
 import filterMethods from "./filterMethods";
 
-function MultiSelect({ value, onChange, additional, onAdditionalChange }) {
+function MultiSelect({ value, onChange, additional, additional: { options }, onAdditionalChange }) {
+  const isValid = (optionId) => options.findIndex((option) => option.id === optionId) > -1;
+  const validValue = value.filter(isValid);
+
   return (
     <SelectWithOptionManager
       mode="multiple"
-      value={value}
+      value={validValue}
       additional={additional}
       onChange={onChange}
       onAdditionalChange={onAdditionalChange}

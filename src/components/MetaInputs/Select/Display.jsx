@@ -8,9 +8,12 @@ const Display = ({
   },
   value,
 }) => {
-  const { color, name } = options.find((option) => value === option.id);
+  const selectedOption = options.find((option) => value === option.id);
+  if (!selectedOption) {
+    return null;
+  }
 
-  return <Tag color={color}>{name}</Tag>;
+  return <Tag color={selectedOption.color}>{selectedOption.name}</Tag>;
 };
 Display.propTypes = {
   value: PropTypes.string.isRequired,

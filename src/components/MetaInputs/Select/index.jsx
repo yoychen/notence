@@ -4,10 +4,12 @@ import SelectWithOptionManager from "../utils/SelectWithOptionManager";
 import Display from "./Display";
 import filterMethods from "./filterMethods";
 
-function Select({ value, onChange, additional, onAdditionalChange }) {
+function Select({ value, onChange, additional, additional: { options }, onAdditionalChange }) {
+  const isValueValid = options.findIndex((option) => option.id === value) > -1;
+
   return (
     <SelectWithOptionManager
-      value={value}
+      value={isValueValid ? value : Select.defaultValue}
       additional={additional}
       onChange={onChange}
       onAdditionalChange={onAdditionalChange}
