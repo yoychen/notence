@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { getInput } from "../MetaInputs";
+import devices from "../../utils/devices";
 
 const Meta = styled.div`
   display: flex;
@@ -9,9 +10,13 @@ const Meta = styled.div`
   margin-bottom: 3px;
 
   .meta-name {
-    width: 150px;
+    width: 80px;
     margin-right: 10px;
     font-size: 1.15em;
+
+    @media screen and ${devices.lg} {
+      width: 150px;
+    }
   }
 
   .meta-input {

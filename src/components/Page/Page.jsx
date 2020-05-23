@@ -6,9 +6,12 @@ import PageHeader from "./PageHeader";
 import MardownEditor from "../MardownEditor";
 import { updateContent, updateTitle, updateMeta, getMetaValue } from "../../slices/pages";
 import { updateAdditional } from "../../slices/properties";
+import devices from "../../utils/devices";
 
 const PageWrapper = styled.div`
-  padding: 20px;
+  @media screen and ${devices.lg} {
+    padding: 20px;
+  }
 `;
 
 const PageContent = styled.div`
@@ -24,6 +27,9 @@ function Page({
   onMetaChange,
   onAdditionalChange,
 }) {
+  const isLg = window.matchMedia(devices.lg).matches;
+  const previewStyle = isLg ? "vertical" : "tab";
+
   return (
     <PageWrapper>
       <PageHeader
@@ -35,7 +41,7 @@ function Page({
       />
 
       <PageContent>
-        <MardownEditor value={content} onChange={onContentChange} />
+        <MardownEditor value={content} previewStyle={previewStyle} onChange={onContentChange} />
       </PageContent>
     </PageWrapper>
   );

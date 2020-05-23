@@ -26,9 +26,17 @@ import {
   updateSequence,
   rename as renameView,
 } from "../../slices/views";
+import devices from "../../utils/devices";
 
 const DatabaseWrapper = styled.div`
-  padding: 35px 96px;
+  width: 100vw;
+  padding: 35px 30px;
+  padding-left: 55px;
+
+  @media screen and ${devices.lg} {
+    width: auto;
+    padding: 35px 96px;
+  }
 `;
 
 const Content = styled.div``;
@@ -45,6 +53,14 @@ const Toolbar = styled.div`
 
   .right {
     margin-left: auto;
+  }
+`;
+
+const PageModal = styled(Modal)`
+  min-width: 100%;
+
+  @media screen and ${devices.lg} {
+    min-width: 85vw;
   }
 `;
 
@@ -130,9 +146,9 @@ function Database({
           properties={properties}
         />
 
-        <Modal width="85vw" visible={!!selectedPageId} onCancel={resetSelectedPageId} footer={null}>
+        <PageModal visible={!!selectedPageId} onCancel={resetSelectedPageId} footer={null}>
           {selectedPageId && <Page pageId={selectedPageId} properties={properties} />}
-        </Modal>
+        </PageModal>
       </Content>
     </DatabaseWrapper>
   );

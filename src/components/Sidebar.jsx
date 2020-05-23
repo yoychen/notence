@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Layout } from "antd";
 import { AppstoreAddOutlined, DeleteOutlined } from "@ant-design/icons";
 import { createDatabase, remove } from "../slices/databases";
+import devices from "../utils/devices";
 
 const { Sider } = Layout;
 
-const SideBarWrapper = styled(Sider)`
+const SideBarWrapper = styled.div`
+  width: 200px;
+  height: 100%;
   padding: 25px 20px;
   background-color: rgb(247, 246, 243);
 
@@ -73,36 +76,52 @@ function SideBar({ databases, onDatabaseCreate, currentDatabaseId, onChange, onD
     });
   };
 
+  const [collapsed, setCollapsed] = useState(false);
+
+  const collapseSider = () => {
+    const isLg = window.matchMedia(devices.lg).matches;
+    if (isLg) {
+      return;
+    }
+
+    setCollapsed(true);
+  };
+
   return (
-    <SideBarWrapper>
-      <h2 className="title">
-        Databases
-        <AppstoreAddOutlined className="add-btn" onClick={() => onDatabaseCreate("Untitled")} />
-      </h2>
+    <Sider breakpoint="lg" collapsedWidth="0" collapsed={collapsed} onCollapse={setCollapsed}>
+      <SideBarWrapper>
+        <h2 className="title">
+          Databases
+          <AppstoreAddOutlined className="add-btn" onClick={() => onDatabaseCreate("Untitled")} />
+        </h2>
 
-      <DatabaseList>
-        {Object.keys(databases).map((databaseId) => {
-          const handleItemSelect = () => onChange(databaseId);
+        <DatabaseList>
+          {Object.keys(databases).map((databaseId) => {
+            const handleItemSelect = () => {
+              onChange(databaseId);
+              collapseSider();
+            };
 
-          return (
-            <div
-              role="button"
-              onClick={handleItemSelect}
-              onKeyPress={handleItemSelect}
-              tabIndex={0}
-              key={databaseId}
-              className={`item ${isActive(databaseId) ? "active" : ""}`}
-            >
-              {databases[databaseId].name}
-              <DeleteOutlined
-                onClick={(event) => handleDeleteBtnClick(event, databaseId)}
-                className="delete-btn"
-              />
-            </div>
-          );
-        })}
-      </DatabaseList>
-    </SideBarWrapper>
+            return (
+              <div
+                role="button"
+                onClick={handleItemSelect}
+                onKeyPress={handleItemSelect}
+                tabIndex={0}
+                key={databaseId}
+                className={`item ${isActive(databaseId) ? "active" : ""}`}
+              >
+                {databases[databaseId].name}
+                <DeleteOutlined
+                  onClick={(event) => handleDeleteBtnClick(event, databaseId)}
+                  className="delete-btn"
+                />
+              </div>
+            );
+          })}
+        </DatabaseList>
+      </SideBarWrapper>
+    </Sider>
   );
 }
 

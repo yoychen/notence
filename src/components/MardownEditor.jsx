@@ -21,6 +21,7 @@ export default function MarkdownEditor({ value, onChange, height, previewStyle }
       initialEditType="markdown"
       onChange={handleChange}
       ref={editor}
+      usageStatistics={false}
     />
   );
 }

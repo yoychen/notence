@@ -37,7 +37,12 @@ function PropertyForm({ onFinish }) {
         </Select>
       </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 5, span: 19 }}>
+      <Form.Item
+        wrapperCol={{
+          xs: { offset: 0 },
+          sm: { offset: 5 },
+        }}
+      >
         <Button type="primary" htmlType="submit">
           Create
         </Button>
