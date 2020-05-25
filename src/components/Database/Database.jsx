@@ -8,6 +8,7 @@ import { getView } from "./Views";
 import ViewSelect from "./ViewSelect";
 import PropertiesDropdown from "./PropertiesDropdown";
 import FiltersDropdown from "./FiltersDropdown";
+import GroupByDropdown from "./GroupByDropdown";
 import Page from "../Page/Page";
 import {
   createPageInDatabase,
@@ -26,6 +27,7 @@ import {
   deleteFilter,
   updateSequence,
   rename as renameView,
+  updateGroupBy,
 } from "../../slices/views";
 import { updateMeta } from "../../slices/pages";
 import devices from "../../utils/devices";
@@ -86,6 +88,7 @@ function Database({
   onViewDelete,
   onViewRename,
   onGroupByInit,
+  onGroupByChange,
 }) {
   const [currentViewId, setCurrentViewId] = useState(views[0].id);
   const [selectedPageId, setSelectedPageId] = useState(null);
@@ -103,6 +106,7 @@ function Database({
   const handleFilterDelete = (filterId) => onFilterDelete(currentViewId, filterId);
   const handleSequenceChange = (newSequence) => onSequenceChange(currentViewId, newSequence);
   const handleGroupByInit = () => onGroupByInit(currentViewId);
+  const handleGroupByChange = (propertyId) => onGroupByChange(currentViewId, propertyId);
 
   return (
     <DatabaseWrapper>
@@ -134,6 +138,13 @@ function Database({
             onFilterChange={handleFilterChange}
             onFilterDelete={handleFilterDelete}
           />
+          {currentView.type === "BoardView" && (
+            <GroupByDropdown
+              properties={properties}
+              groupBy={currentView.groupBy}
+              onGroupByChange={handleGroupByChange}
+            />
+          )}
         </div>
       </Toolbar>
 
@@ -182,6 +193,7 @@ Database.propTypes = {
   onViewDelete: PropTypes.func.isRequired,
   onViewRename: PropTypes.func.isRequired,
   onGroupByInit: PropTypes.func.isRequired,
+  onGroupByChange: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { databaseId }) => ({
@@ -211,6 +223,7 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
     onViewDelete: (viewId) => dispatch(deleteViewInDatabase(databaseId, viewId)),
     onViewRename: (viewId, newName) => dispatch(renameView({ viewId, newName })),
     onGroupByInit: (viewId) => dispatch(initGroupBy(databaseId, viewId)),
+    onGroupByChange: (viewId, propertyId) => dispatch(updateGroupBy({ viewId, propertyId })),
   };
 };
 
