@@ -3,26 +3,34 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { DeleteOutlined } from "@ant-design/icons";
 
-const Property = styled.div`
-  margin: 0 6px;
-`;
-
 const CardWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding: 8px 16px;
   border-bottom: 1px solid #eee;
+  word-break: break-all;
+  user-select: none;
 
   .title {
     margin: 0;
     margin-right: auto;
     font-size: 14px;
   }
-`;
 
-const DeleteBtn = styled(DeleteOutlined)`
-  cursor: pointer;
-  user-select: none;
+  .property-list {
+    display: flex;
+    align-items: center;
+
+    .property {
+      margin: 0 6px;
+    }
+  }
+
+  .delete-btn {
+    cursor: pointer;
+    user-select: none;
+  }
 `;
 
 const Card = ({ title, properties, onDelete, innerRef, ...rest }) => {
@@ -32,18 +40,24 @@ const Card = ({ title, properties, onDelete, innerRef, ...rest }) => {
     onDelete();
   };
 
+  const propertyList = (
+    <div className="property-list">
+      {properties.map(({ Display, property, value }) => (
+        <div className="property" key={property.id}>
+          <Display property={property} value={value} />
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <CardWrapper ref={innerRef} {...rest}>
       <h2 className="title">{title}</h2>
 
-      {properties.map(({ Display, property, value }) => (
-        <Property key={property.id}>
-          <Display property={property} value={value} />
-        </Property>
-      ))}
+      {propertyList}
 
-      <DeleteBtn className="delete-btn" onClick={handleClick} />
+      <DeleteOutlined className="delete-btn" onClick={handleClick} />
     </CardWrapper>
   );
 };

@@ -2,7 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import shortid from "shortid";
-import { createView, remove as removeView } from "./views";
+import { createView, remove as removeView, updateGroupBy } from "./views";
 import { createPage, remove as removePage } from "./pages";
 import { createProperty, removeProperty } from "./properties";
 
@@ -83,9 +83,10 @@ export const createDatabase = ({ name }) => (dispatch) => {
   dispatch(create(database));
 };
 
-export const createPageInDatabase = (databaseId, { title }) => (dispatch) => {
+export const createPageInDatabase = (databaseId, { title, meta }) => (dispatch) => {
   const page = {
     title,
+    meta,
     id: shortid.generate(),
   };
   dispatch(createPage(page));
@@ -114,11 +115,11 @@ export const deleteViewInDatabase = (databaseId, viewId) => (dispatch) => {
   dispatch(popView({ databaseId, viewId }));
 };
 
-export const createPropertyInDatabase = (databaseId, { name, type }) => (dispatch) => {
+export const createPropertyInDatabase = (databaseId, { name, type, id }) => (dispatch) => {
   const property = {
     name,
     type,
-    id: shortid.generate(),
+    id: id || shortid.generate(),
   };
   dispatch(createProperty(property));
 
@@ -128,4 +129,15 @@ export const createPropertyInDatabase = (databaseId, { name, type }) => (dispatc
 export const deletePropertyInDatabase = (databaseId, propertyId) => (dispatch) => {
   dispatch(removeProperty(propertyId));
   dispatch(popProperty({ databaseId, propertyId }));
+};
+
+export const initGroupBy = (databaseId, viewId) => (dispatch) => {
+  const property = {
+    name: "Status",
+    type: "Select",
+    id: shortid.generate(),
+  };
+  dispatch(createPropertyInDatabase(databaseId, property));
+
+  dispatch(updateGroupBy({ viewId, propertyId: property.id }));
 };

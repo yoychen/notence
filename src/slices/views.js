@@ -20,6 +20,7 @@ const slice = createSlice({
           showProperties = [],
           sorts = [],
           sequence = [],
+          groupBy = {},
         },
       }
     ) => {
@@ -31,6 +32,7 @@ const slice = createSlice({
         showProperties,
         sorts,
         sequence,
+        groupBy,
       };
     },
     toggleShowProperty(state, { payload: { viewId, propertyId } }) {
@@ -66,6 +68,9 @@ const slice = createSlice({
     remove(state, { payload: { viewId } }) {
       delete state[viewId];
     },
+    updateGroupBy(state, { payload: { viewId, propertyId } }) {
+      state[viewId].groupBy.propertyId = propertyId;
+    },
   },
 });
 
@@ -78,6 +83,7 @@ export const {
   updateSequence,
   rename,
   remove,
+  updateGroupBy,
 } = slice.actions;
 
 export default slice.reducer;

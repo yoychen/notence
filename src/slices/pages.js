@@ -37,9 +37,10 @@ export const { create, updateMeta, updateContent, updateTitle, remove } = slice.
 
 export default slice.reducer;
 
-export const createPage = ({ title, id }) => (dispatch) => {
+export const createPage = ({ title, id, meta }) => (dispatch) => {
   const page = {
     title,
+    meta,
     id: id || shortid.generate(),
   };
 

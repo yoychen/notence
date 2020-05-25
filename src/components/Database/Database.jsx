@@ -17,6 +17,7 @@ import {
   rename,
   createViewInDatabase,
   deleteViewInDatabase,
+  initGroupBy,
 } from "../../slices/databases";
 import {
   toggleShowProperty,
@@ -26,6 +27,7 @@ import {
   updateSequence,
   rename as renameView,
 } from "../../slices/views";
+import { updateMeta } from "../../slices/pages";
 import devices from "../../utils/devices";
 
 const DatabaseWrapper = styled.div`
@@ -71,6 +73,7 @@ function Database({
   properties,
   onPageCreate,
   onPageDelete,
+  onPageMetaChange,
   onPropertyCreate,
   onPropertyToggle,
   onPropertyDelete,
@@ -82,6 +85,7 @@ function Database({
   onViewCreate,
   onViewDelete,
   onViewRename,
+  onGroupByInit,
 }) {
   const [currentViewId, setCurrentViewId] = useState(views[0].id);
   const [selectedPageId, setSelectedPageId] = useState(null);
@@ -98,6 +102,7 @@ function Database({
   const handleFilterCreate = () => onFilterCreate(currentViewId);
   const handleFilterDelete = (filterId) => onFilterDelete(currentViewId, filterId);
   const handleSequenceChange = (newSequence) => onSequenceChange(currentViewId, newSequence);
+  const handleGroupByInit = () => onGroupByInit(currentViewId);
 
   return (
     <DatabaseWrapper>
@@ -137,12 +142,15 @@ function Database({
           onPageSelect={setSelectedPageId}
           onPageCreate={onPageCreate}
           onPageDelete={onPageDelete}
+          onPageMetaChange={onPageMetaChange}
           onSequenceChange={handleSequenceChange}
+          onGroupByInit={handleGroupByInit}
           dataSource={pages}
           filters={currentView.filters}
           showProperties={currentView.showProperties}
           sorts={currentView.sorts}
           sequence={currentView.sequence}
+          groupBy={currentView.groupBy}
           properties={properties}
         />
 
@@ -161,6 +169,7 @@ Database.propTypes = {
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onPageCreate: PropTypes.func.isRequired,
   onPageDelete: PropTypes.func.isRequired,
+  onPageMetaChange: PropTypes.func.isRequired,
   onPropertyCreate: PropTypes.func.isRequired,
   onPropertyToggle: PropTypes.func.isRequired,
   onPropertyDelete: PropTypes.func.isRequired,
@@ -172,6 +181,7 @@ Database.propTypes = {
   onViewCreate: PropTypes.func.isRequired,
   onViewDelete: PropTypes.func.isRequired,
   onViewRename: PropTypes.func.isRequired,
+  onGroupByInit: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, { databaseId }) => ({
@@ -186,6 +196,8 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
   return {
     onPageCreate: (page) => dispatch(createPageInDatabase(databaseId, page)),
     onPageDelete: (pageId) => dispatch(deletePageInDatabase(databaseId, pageId)),
+    onPageMetaChange: (pageId, propertyId, value) =>
+      dispatch(updateMeta({ pageId, propertyId, value })),
     onPropertyCreate: (property) => dispatch(createPropertyInDatabase(databaseId, property)),
     onPropertyToggle: (viewId, propertyId) => dispatch(toggleShowProperty({ viewId, propertyId })),
     onPropertyDelete: (propertyId) => dispatch(deletePropertyInDatabase(databaseId, propertyId)),
@@ -198,6 +210,7 @@ const mapDispatchToProps = (dispatch, { databaseId }) => {
     onViewCreate: (view) => dispatch(createViewInDatabase(databaseId, view)),
     onViewDelete: (viewId) => dispatch(deleteViewInDatabase(databaseId, viewId)),
     onViewRename: (viewId, newName) => dispatch(renameView({ viewId, newName })),
+    onGroupByInit: (viewId) => dispatch(initGroupBy(databaseId, viewId)),
   };
 };
 
