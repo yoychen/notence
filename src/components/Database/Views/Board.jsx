@@ -15,16 +15,11 @@ const CreatePropertyBtn = styled(Button)`
 `;
 
 const BoardCard = styled(Card)`
-  position: relative;
   margin-bottom: 8px;
   padding: 7px 12px;
   border: 1px solid #dfdfdf;
   border-radius: 2px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-
-  .title {
-    margin-right: 1em;
-  }
 
   .property-list {
     display: block;
@@ -34,12 +29,6 @@ const BoardCard = styled(Card)`
     .property {
       margin: 0;
     }
-  }
-
-  .delete-btn {
-    position: absolute;
-    top: 10px;
-    right: 8px;
   }
 `;
 

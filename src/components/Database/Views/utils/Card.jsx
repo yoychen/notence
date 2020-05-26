@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { DeleteOutlined } from "@ant-design/icons";
 
 const CardWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -15,11 +16,13 @@ const CardWrapper = styled.div`
   .title {
     margin: 0;
     margin-right: auto;
+    padding-right: 1em;
     font-size: 14px;
   }
 
   .property-list {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
 
     .property {
@@ -28,6 +31,10 @@ const CardWrapper = styled.div`
   }
 
   .delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 8px;
+
     cursor: pointer;
     user-select: none;
   }
