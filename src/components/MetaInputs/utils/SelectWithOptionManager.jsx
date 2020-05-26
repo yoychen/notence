@@ -31,8 +31,12 @@ function Select({ mode, value, onChange, additional: { options }, onAdditionalCh
     onAdditionalChange({ options: newOptions });
   };
 
+  const filterOption = (inputValue, option) => option.children.search(inputValue) > -1;
+
   return (
     <SelectInput
+      allowClear
+      filterOption={filterOption}
       mode={mode}
       placeholder="Empty"
       disabled={optionManagerVisible}
