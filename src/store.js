@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import rootReducer from "./reducers";
+import demoState from "./utils/demoState";
 
 const persistConfig = {
   key: "root",
@@ -13,6 +14,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
+  preloadedState: demoState,
 });
 export const persistor = persistStore(store);
 
