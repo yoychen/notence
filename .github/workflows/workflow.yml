@@ -23,6 +23,8 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: lint
+    env:
+      REACT_APP_GOOGLE_ANALYTICS_ID: ${{secrets.google_analytics_id}}
    
     steps:
     - uses: actions/checkout@v2
