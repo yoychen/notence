@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
+import { InfoCircleTwoTone } from "@ant-design/icons";
 import InlineInput from "../InlineInput";
 import { getView } from "./Views";
 import ViewSelect from "./ViewSelect";
@@ -108,6 +109,17 @@ function Database({
   const handleGroupByInit = () => onGroupByInit(currentViewId);
   const handleGroupByChange = (propertyId) => onGroupByChange(currentViewId, propertyId);
 
+  const handlePageCreate = (page) => {
+    if (currentView.filters.length > 0) {
+      notification.open({
+        icon: <InfoCircleTwoTone />,
+        message: "The new created page may not be able to show on current filter rules.",
+        duration: 8,
+      });
+    }
+    onPageCreate(page);
+  };
+
   return (
     <DatabaseWrapper>
       <Title>
@@ -151,7 +163,7 @@ function Database({
       <Content>
         <DataView
           onPageSelect={setSelectedPageId}
-          onPageCreate={onPageCreate}
+          onPageCreate={handlePageCreate}
           onPageDelete={onPageDelete}
           onPageMetaChange={onPageMetaChange}
           onSequenceChange={handleSequenceChange}
