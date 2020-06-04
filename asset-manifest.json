@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/notence/static/css/main.6666c7b2.chunk.css",
+    "main.js": "/notence/static/js/main.bbcd88a2.chunk.js",
+    "main.js.map": "/notence/static/js/main.bbcd88a2.chunk.js.map",
+    "runtime-main.js": "/notence/static/js/runtime-main.4746ac62.js",
+    "runtime-main.js.map": "/notence/static/js/runtime-main.4746ac62.js.map",
+    "static/css/2.4aa008b6.chunk.css": "/notence/static/css/2.4aa008b6.chunk.css",
+    "static/js/2.17e087e2.chunk.js": "/notence/static/js/2.17e087e2.chunk.js",
+    "static/js/2.17e087e2.chunk.js.map": "/notence/static/js/2.17e087e2.chunk.js.map",
+    "index.html": "/notence/index.html",
+    "precache-manifest.38fdb431947a7e6f9b53fa89340d15cb.js": "/notence/precache-manifest.38fdb431947a7e6f9b53fa89340d15cb.js",
+    "service-worker.js": "/notence/service-worker.js",
+    "static/css/2.4aa008b6.chunk.css.map": "/notence/static/css/2.4aa008b6.chunk.css.map",
+    "static/css/main.6666c7b2.chunk.css.map": "/notence/static/css/main.6666c7b2.chunk.css.map",
+    "static/js/2.17e087e2.chunk.js.LICENSE.txt": "/notence/static/js/2.17e087e2.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4746ac62.js",
+    "static/css/2.4aa008b6.chunk.css",
+    "static/js/2.17e087e2.chunk.js",
+    "static/css/main.6666c7b2.chunk.css",
+    "static/js/main.bbcd88a2.chunk.js"
+  ]
+}
