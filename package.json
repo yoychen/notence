@@ -52,7 +52,8 @@
     "prettier": "^2.0.5",
     "react-app-rewire-hot-loader": "^2.0.1",
     "react-app-rewired": "^2.1.6",
-    "react-hot-loader": "^4.12.21"
+    "react-hot-loader": "^4.12.21",
+    "redux-mock-store": "^1.5.4"
   },
   "homepage": "/notence"
 }
