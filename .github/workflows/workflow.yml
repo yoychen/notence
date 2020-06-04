@@ -18,11 +18,25 @@ jobs:
       run: npm ci
     - name: Run eslint
       run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Install Dependencies
+      run: npm ci
+    - name: Run test
+      run: npm run test
       
   build:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    needs: lint
+    needs: [test, lint]
     env:
       REACT_APP_GOOGLE_ANALYTICS_ID: ${{secrets.google_analytics_id}}
    
