@@ -26,6 +26,7 @@ export default function InlineInput({ tagName, className, value, onChange, multi
     onKeyPress: handleKeyPress,
     onInput: handleChange,
     className,
+    "data-testid": "input",
   });
 }
 

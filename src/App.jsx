@@ -4,6 +4,7 @@ import { hot } from "react-hot-loader/root";
 import styled from "styled-components";
 import { Layout, Empty } from "antd";
 import "./App.css";
+// eslint-disable-next-line import/no-named-as-default
 import Sidebar from "./components/Sidebar";
 import Database from "./components/Database/Database";
 

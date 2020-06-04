@@ -62,7 +62,13 @@ const DatabaseList = styled.div`
   }
 `;
 
-function SideBar({ databases, onDatabaseCreate, currentDatabaseId, onChange, onDatabaseDelete }) {
+export function Sidebar({
+  databases,
+  currentDatabaseId,
+  onChange,
+  onDatabaseCreate,
+  onDatabaseDelete,
+}) {
   const isActive = (databaseId) => currentDatabaseId === databaseId;
 
   const handleDeleteBtnClick = (event, databaseId) => {
@@ -92,7 +98,11 @@ function SideBar({ databases, onDatabaseCreate, currentDatabaseId, onChange, onD
       <SideBarWrapper>
         <h2 className="title">
           Databases
-          <AppstoreAddOutlined className="add-btn" onClick={() => onDatabaseCreate("Untitled")} />
+          <AppstoreAddOutlined
+            data-testid="add-btn"
+            className="add-btn"
+            onClick={() => onDatabaseCreate("Untitled")}
+          />
         </h2>
 
         <DatabaseList>
@@ -104,6 +114,7 @@ function SideBar({ databases, onDatabaseCreate, currentDatabaseId, onChange, onD
 
             return (
               <div
+                data-testid={`${databaseId}-database-item`}
                 role="button"
                 onClick={handleItemSelect}
                 onKeyPress={handleItemSelect}
@@ -113,6 +124,7 @@ function SideBar({ databases, onDatabaseCreate, currentDatabaseId, onChange, onD
               >
                 {databases[databaseId].name}
                 <DeleteOutlined
+                  data-testid={`${databaseId}-delete-btn`}
                   onClick={(event) => handleDeleteBtnClick(event, databaseId)}
                   className="delete-btn"
                 />
@@ -125,11 +137,11 @@ function SideBar({ databases, onDatabaseCreate, currentDatabaseId, onChange, onD
   );
 }
 
-SideBar.defaultProps = {
+Sidebar.defaultProps = {
   currentDatabaseId: null,
 };
 
-SideBar.propTypes = {
+Sidebar.propTypes = {
   databases: PropTypes.objectOf(PropTypes.object).isRequired,
   onDatabaseCreate: PropTypes.func.isRequired,
   onDatabaseDelete: PropTypes.func.isRequired,
@@ -148,4 +160,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
